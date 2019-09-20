@@ -9,6 +9,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 )
 source "$DIR/template-ci/ci-tool.sh"
 
+SBT_VERSION="1.3.2"
 
 build () {
     docker build -t $IMAGE:$HASH .
@@ -23,6 +24,9 @@ testit () {
 
 publish () {
 	create_tag $BRANCH
+	if [ "$BRANCH" = "master" ]; then
+    create_tag $SBT_VERSION
+  fi
 	push_tags
 }
 
